@@ -9,6 +9,8 @@
 ├── context             ... di
 │
 ├── domain              ... domain logic
+│   ├── entity
+│   └── repository
 │
 ├── infra               ... I/O with the outside
 │   ├── grpc_handler
