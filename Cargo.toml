@@ -1,8 +1,13 @@
-[package]
-name = "rust_clean_architecture"
-version = "0.1.0"
-edition = "2021"
+[workspace]
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
-[dependencies]
+members = [
+    "app",
+    "context",
+    "domain/entity",
+    "domain/repository",
+    "infra/grpc_handler",
+    "infra/repository_impl",
+    "proto",
+    "share/error",
+    "usecase",
+]
