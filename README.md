@@ -1,5 +1,11 @@
 # Clean Architecture by Rust
 
+## Requirements
+
+* Rust
+* Docker
+* diesel cli
+
 ## Directory structure
 
 ```
