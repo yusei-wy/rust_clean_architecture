@@ -8,4 +8,8 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
    && apt-get -y install clang lld \
    && apt-get autoremove -y && apt-get clean -y
 
+# Add vscode user before `cargo install` or error will occur
+# https://github.com/rust-lang/cargo/issues/6513#issuecomment-1133415695
+USER vscode
+
 RUN cargo install diesel_cli
