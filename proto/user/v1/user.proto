@@ -6,7 +6,7 @@ service UserService {
     rpc GetUsersByIds(GetUsersByIdsRequest) returns (GetUsersByIdsResponse);
 }
 
-message CreateUserReques {
+message CreateUserRequest {
     string name = 1;
 }
 
