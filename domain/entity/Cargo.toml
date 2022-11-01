@@ -12,4 +12,4 @@ uuid = { version = "1.0.0", features = ["v4"] }
 error = { path = "../../share/error" }
 
 [dev-dependencies]
-rstest = "0.13.0"
+rstest = "0.15.0"

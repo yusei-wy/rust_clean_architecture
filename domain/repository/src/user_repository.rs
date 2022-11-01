@@ -1,4 +1,5 @@
 use async_trait::async_trait;
+
 use entity::{User, UserId};
 
 #[mockall::automock]

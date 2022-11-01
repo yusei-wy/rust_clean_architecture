@@ -2,8 +2,9 @@ use std::str::FromStr;
 
 use anyhow::{bail, Context};
 use derive_getters::Getters;
-use error::AppError;
 use uuid::Uuid;
+
+use error::AppError;
 
 #[derive(Clone, Debug, Getters)]
 pub struct User {
@@ -20,7 +21,21 @@ impl User {
     }
 }
 
-#[derive(Clone, Debug)]
+impl User {
+    pub fn reconstruct(id: String, name: String) -> anyhow::Result<User> {
+        let id = id.parse().with_context(|| {
+            AppError::Internal("failed to reconstruct user: invalid id".to_string())
+        })?;
+
+        let name = name.try_into().with_context(|| {
+            AppError::Internal("failed to reconstruct user: invalid name".to_string())
+        })?;
+
+        Ok(User { id, name })
+    }
+}
+
+#[derive(Clone, Copy, Debug)]
 pub struct UserId(Uuid);
 
 impl UserId {
