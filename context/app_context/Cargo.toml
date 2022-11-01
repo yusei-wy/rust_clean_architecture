@@ -1,0 +1,11 @@
+[package]
+name = "app_context"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+entity = { path = "../../domain/entity" }
+repository = { path = "../../domain/repository" }
+psql_repository = { path = "../../infra/psql_repository" }

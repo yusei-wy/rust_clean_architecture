@@ -2,7 +2,8 @@
 
 members = [
     "app",
-    "context",
+    "context/app_context",
+    "context/mock_context",
     "domain/entity",
     "domain/repository",
     "infra/db_schema",
