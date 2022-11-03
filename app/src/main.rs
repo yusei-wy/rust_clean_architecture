@@ -1,8 +1,9 @@
-use app_context::AppContext;
 use diesel::r2d2::ConnectionManager;
+use tonic::transport::Server;
+
+use app_context::AppContext;
 use grpc_handler::{user::v1::user_service_server::UserServiceServer, UserServiceHandler};
 use psql_repository::UserRepository;
-use tonic::transport::Server;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -17,7 +18,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let user_service = UserServiceHandler::new(context);
 
-    let add = "[::1]:50051".parse()?;
+    let add = "127.0.0.1:50051".parse()?;
     println!("Start sample app server!");
 
     Server::builder()
