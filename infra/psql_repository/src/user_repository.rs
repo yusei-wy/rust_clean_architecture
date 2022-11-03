@@ -16,14 +16,14 @@ use error::AppError;
 #[table_name = "users"]
 struct User {
     pub id: String,
-    pub name: String,
+    pub name: Option<String>,
 }
 
 impl From<&entity::User> for User {
     fn from(user: &entity::User) -> User {
         User {
             id: user.id().to_string(),
-            name: user.name().to_string(),
+            name: Some(user.name().to_string()),
         }
     }
 }
@@ -34,7 +34,7 @@ impl TryFrom<User> for entity::User {
     fn try_from(user: User) -> Result<Self, Self::Error> {
         let User { id, name } = user;
 
-        entity::User::reconstruct(id, name)
+        entity::User::reconstruct(id, name.unwrap())
     }
 }
 
@@ -63,19 +63,17 @@ impl repository::UserRepository for UserRepository {
         })
     }
 
-    async fn get_by_ids(&self, _ids: &[entity::UserId]) -> anyhow::Result<Vec<entity::User>> {
-        todo!()
-        // TODO: load でエラー
-        // tokio::task::block_in_place(|| {
-        //     let ids = ids.iter().map(|id| id.to_string()).collect::<Vec<_>>();
-        //     let conn = self.pool.get()?;
+    async fn get_by_ids(&self, ids: &[entity::UserId]) -> anyhow::Result<Vec<entity::User>> {
+        tokio::task::block_in_place(|| {
+            let ids = ids.iter().map(|id| id.to_string()).collect::<Vec<_>>();
+            let conn = self.pool.get()?;
 
-        //     let users = users::table
-        //         .filter(users::id.eq_any(ids))
-        //         .load::<User>(&conn)
-        //         .with_context(|| AppError::Internal("failed to get user".to_string()))?;
+            let users = users::table
+                .filter(users::id.eq_any(ids))
+                .load::<User>(&conn)
+                .with_context(|| AppError::Internal("failed to get user".to_string()))?;
 
-        //     users.into_iter().map(TryInto::try_into).collect()
-        // })
+            users.into_iter().map(TryInto::try_into).collect()
+        })
     }
 }
