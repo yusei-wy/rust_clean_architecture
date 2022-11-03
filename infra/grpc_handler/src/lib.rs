@@ -27,14 +27,11 @@ impl UserService for UserServiceHandler {
         &self,
         request: Request<CreateUserRequest>,
     ) -> Result<Response<CreateUserResponse>, Status> {
-        let cmd = request
-            .into_inner()
-            .try_into()
-            .map_err(|e| handle_error(e))?;
+        let cmd = request.into_inner().try_into().map_err(handle_error)?;
 
         let user = usecase::create_user(self.ctx(), cmd)
             .await
-            .map_err(|e| handle_error(e))?;
+            .map_err(handle_error)?;
 
         Ok(Response::new(user.into()))
     }
@@ -43,14 +40,11 @@ impl UserService for UserServiceHandler {
         &self,
         request: Request<GetUsersByIdsRequest>,
     ) -> Result<Response<GetUsersByIdsResponse>, Status> {
-        let ids = request
-            .into_inner()
-            .try_into()
-            .map_err(|e| handle_error(e))?;
+        let ids = request.into_inner().try_into().map_err(handle_error)?;
 
         let users = usecase::get_users_by_ids(self.ctx(), ids)
             .await
-            .map_err(|e| handle_error(e))?;
+            .map_err(handle_error)?;
 
         Ok(Response::new(users.into()))
     }
